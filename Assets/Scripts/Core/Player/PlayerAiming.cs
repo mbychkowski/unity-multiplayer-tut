@@ -6,4 +6,9 @@ public class PlayerAiming : NetworkBehaviour
 {
   [SerializeField] private InputReader inputReader;
   [SerializeField] private Transform turretTransform;
+
+  private void LateUpdate()
+  {
+
+  }
 }
