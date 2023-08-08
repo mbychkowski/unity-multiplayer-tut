@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 public class HostGameManager
 {
   private Allocation allocation;
+  private NetworkServer networkServer;
   private string joinCode;
   private string lobbyId;
   private const int MaxConnections = 20;
@@ -55,14 +56,15 @@ public class HostGameManager
       lobbyOptions.Data = new Dictionary<string, DataObject>()
       {
         {
-          "joinCode", new DataObject(
+          "JoinCode", new DataObject(
             visibility: DataObject.VisibilityOptions.Member,
             value: joinCode
           )
         }
       };
+      string playerName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Unkown");
       Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(
-        "My Lobby", MaxConnections, lobbyOptions);
+        $"{playerName}'s Lobby", MaxConnections, lobbyOptions);
 
       lobbyId = lobby.Id;
 
@@ -73,6 +75,18 @@ public class HostGameManager
       Debug.Log(e);
       return;
     }
+
+    networkServer = new NetworkServer(NetworkManager.Singleton);
+
+    UserData userData = new UserData
+    {
+      userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name")
+    };
+
+    string payload = JsonUtility.ToJson(userData);
+    byte[] payloadBytes = System.Text.Encoding.UTF8.GetBytes(payload);
+
+    NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
     NetworkManager.Singleton.StartHost();
 

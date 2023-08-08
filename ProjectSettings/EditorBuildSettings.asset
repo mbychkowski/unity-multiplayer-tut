@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/NetBootstrap.unity
     guid: 10d90457646bd41f99c65527e6ae307e
   - enabled: 1
+    path: Assets/Scenes/Bootstrap.unity
+    guid: c538cf27fd0d3499ca01d44f21cf0191
+  - enabled: 1
     path: Assets/Scenes/NetworkBootstrap.unity
     guid: 8e2c57b40d0a040a9bea640040d278b7
   - enabled: 1
