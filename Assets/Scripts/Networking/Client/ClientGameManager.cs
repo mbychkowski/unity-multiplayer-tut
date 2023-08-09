@@ -5,19 +5,23 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class ClientGameManager
+public class ClientGameManager : IDisposable
 {
   private const string MenuSceneName = "Menu";
   private JoinAllocation joinAllocation;
+  private NetworkClient networkClient;
   public async Task<bool> InitAsync()
   {
     await UnityServices.InitializeAsync();
+
+    networkClient = new NetworkClient(NetworkManager.Singleton);
 
     AuthState authState = await AuthenticationWrapper.DoAuth();
 
@@ -53,7 +57,8 @@ public class ClientGameManager
 
     UserData userData = new UserData
     {
-      userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name")
+      userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name"),
+      userAuthId = AuthenticationService.Instance.PlayerId,
     };
 
     string payload = JsonUtility.ToJson(userData);
@@ -62,5 +67,10 @@ public class ClientGameManager
     NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
     NetworkManager.Singleton.StartClient();
+  }
+
+  public void Dispose()
+  {
+    networkClient?.Dispose();
   }
 }
