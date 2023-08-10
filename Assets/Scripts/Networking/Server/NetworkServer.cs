@@ -11,6 +11,10 @@ public class NetworkServer : IDisposable
   private NetworkManager networkManager;
   private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>();
   private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>();
+  public Action<string> OnClientLeft;
+  public Action<UserData> OnUserLeft;
+  public Action<UserData> OnUserJoined;
+
 
   public NetworkServer(NetworkManager networkManager)
   {
@@ -36,6 +40,7 @@ public class NetworkServer : IDisposable
 
     clientIdToAuth[req.ClientNetworkId] = userData.userAuthId;
     authIdToUserData[userData.userAuthId] = userData;
+    OnUserJoined?.Invoke(userData);
 
     res.Approved = true;
     res.CreatePlayerObject = true;
@@ -51,7 +56,9 @@ public class NetworkServer : IDisposable
     if (clientIdToAuth.TryGetValue(clientId, out string authId))
     {
       clientIdToAuth.Remove(clientId);
+      OnUserLeft?.Invoke(authIdToUserData[authId]);
       authIdToUserData.Remove(authId);
+      OnClientLeft?.Invoke(authId);
     }
   }
 
