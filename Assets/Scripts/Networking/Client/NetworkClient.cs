@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NetworkClient : IDisposable
@@ -14,7 +11,6 @@ public class NetworkClient : IDisposable
     this.networkManager = networkManager;
 
     networkManager.OnClientDisconnectCallback += OnClientDisconnect;
-
   }
 
   private void OnClientDisconnect(ulong clientId)

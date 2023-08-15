@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.googleforgames.agones": {
+      "version": "https://github.com/googleforgames/agones.git?path=/sdks/unity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "614c9adbaff21fb72e06bb17fb481a3a6cbbf3fa"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
@@ -161,7 +168,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.18",
+      "version": "2.0.20",
       "depth": 0,
       "source": "registry",
       "dependencies": {

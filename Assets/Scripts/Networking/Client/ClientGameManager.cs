@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -19,6 +17,7 @@ public class ClientGameManager : IDisposable
   private NetworkClient networkClient;
   private MatchplayMatchmaker matchmaker;
   private UserData userData;
+
   public async Task<bool> InitAsync()
   {
     await UnityServices.InitializeAsync();

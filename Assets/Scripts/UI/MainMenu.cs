@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -73,7 +71,7 @@ public class MainMenu : MonoBehaviour
   }
 
   public async void StartClient()
-    {
-      await ClientSingleton.Instance.GameManager.StartClientAsync(joinCodeField.text);
-    }
+  {
+    await ClientSingleton.Instance.GameManager.StartClientAsync(joinCodeField.text);
+  }
 }
